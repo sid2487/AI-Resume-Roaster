@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-// import pdfParse from "pdf-parse";
-import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
-// pdfjsLib.GlobalWorkerOptions.workerSrc = "pdfjs-dist/build/pdf.worker.mjs";
+
+
+// @ts-ignore
+import pdf from "pdf-parse-fixed";
+
+
+
+
+export const runtime = "nodejs";
 
 
 import mammoth from "mammoth";
@@ -21,27 +27,11 @@ export async function POST(request: NextRequest) {
   const buffer = Buffer.from(arrayBuffer);
 
   let text = "";
-
-  // determine files
-  // PDF handling
+  
   if (file.type === "application/pdf") {
-    // Convert Buffer → Uint8Array (required by pdf.js)
-    const uint8 = new Uint8Array(buffer);
 
-    const pdf = await pdfjsLib.getDocument({ data: uint8 }).promise;
-
-    let extractedText = "";
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-
-      const pageText = content.items.map((item: any) => item.str).join(" ");
-
-      extractedText += pageText + "\n";
-    }
-
-    text = extractedText;
+    const data = await pdf(buffer);
+    text = data.text;
   } else if (
     file.type ===
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document"

@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import axios from "axios";
 
 export default function RoastGenerator() {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
@@ -22,21 +21,29 @@ export default function RoastGenerator() {
       const formData = new FormData();
       formData.append("file", uploadFile);
 
-      const res = await axios.post("/api/fileupload", formData, {
+      const res = await fetch("/api/fileupload", {
+        method: "POST",
+        body: formData,
         headers: {
           "x-temperature": temperature.toString(),
         },
       });
 
-      setRoast(res.data.roast);
-      setUploadFile(null);
-      if(fileInputRef.current){
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        setRoast(errData?.error || "Server error");
+        setLoading(false);
+        return;
+      }
+
+      const data = await res.json();
+      setRoast(data.roast);
+      if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
     } catch (error: any) {
-      setRoast(error?.response?.data?.error || "Error: Could not generate roast.");
+      setRoast("Error: Could not generate roast.");
     }
-
     setLoading(false);
   };
 
