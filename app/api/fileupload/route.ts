@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 // import pdfParse from "pdf-parse";
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
-pdfjsLib.GlobalWorkerOptions.workerSrc = "pdfjs-dist/build/pdf.worker.mjs";
+// pdfjsLib.GlobalWorkerOptions.workerSrc = "pdfjs-dist/build/pdf.worker.mjs";
 
 
 import mammoth from "mammoth";
