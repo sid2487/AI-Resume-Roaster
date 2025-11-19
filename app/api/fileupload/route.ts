@@ -11,7 +11,6 @@ export const runtime = "nodejs";
 
 
 import mammoth from "mammoth";
-import tesseract from "node-tesseract-ocr";
 import Groq from "groq-sdk";
 
 export async function POST(request: NextRequest) {
@@ -39,9 +38,10 @@ export async function POST(request: NextRequest) {
     const result = await mammoth.extractRawText({ buffer });
     text = result.value;
   } else if (file.type.startsWith("image/")) {
-    text = await tesseract.recognize(buffer, {
-      lang: "eng",
-    });
+    return NextResponse.json(
+      { error: "Image OCR not supported yet." },
+      { status: 400 }
+    );
   } else if (file.type === "text/plain") {
     text = buffer.toString("utf8");
   } else {
