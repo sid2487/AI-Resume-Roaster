@@ -8,7 +8,7 @@ import pdf from "pdf-parse-fixed";
 
 
 export const runtime = "nodejs";
-
+export const dynamic = "force-dynamic";
 
 import mammoth from "mammoth";
 import Groq from "groq-sdk";
