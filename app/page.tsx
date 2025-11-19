@@ -21,13 +21,16 @@ export default function RoastGenerator() {
       const formData = new FormData();
       formData.append("file", uploadFile);
 
-      const res = await fetch("/api/fileupload", {
-        method: "POST",
-        body: formData,
-        headers: {
-          "x-temperature": temperature.toString(),
-        },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/fileupload`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            "x-temperature": temperature.toString(),
+          },
+        }
+      );
 
       if (!res.ok) {
         const errData = await res.json().catch(() => null);
