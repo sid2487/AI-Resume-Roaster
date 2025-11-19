@@ -11,7 +11,7 @@ export const runtime = "nodejs";
 
 
 import mammoth from "mammoth";
-import Tesseract from "tesseract.js";
+import tesseract from "node-tesseract-ocr";
 import Groq from "groq-sdk";
 
 export async function POST(request: NextRequest) {
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
   const buffer = Buffer.from(arrayBuffer);
 
   let text = "";
-  
+
   if (file.type === "application/pdf") {
 
     const data = await pdf(buffer);
@@ -39,8 +39,9 @@ export async function POST(request: NextRequest) {
     const result = await mammoth.extractRawText({ buffer });
     text = result.value;
   } else if (file.type.startsWith("image/")) {
-    const { data } = await Tesseract.recognize(buffer, "eng");
-    text = data.text;
+    text = await tesseract.recognize(buffer, {
+      lang: "eng",
+    });
   } else if (file.type === "text/plain") {
     text = buffer.toString("utf8");
   } else {
