@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Link from "next/link";
 
 export default function Register() {
   const router = useRouter();
@@ -34,6 +35,8 @@ export default function Register() {
         router.push("/login");
       }
     } catch (err: any) {
+      const msg = err.response?.data?.message || "Something went wrong";
+      setError(msg);
       console.error(err.response?.data?.message || "Error in Register")
     } finally {
       setLoading(false);
@@ -83,6 +86,12 @@ export default function Register() {
           >
             {loading ? "Registering..." : "Register"}
           </button>
+          <p className="text-center">
+            Already register{" "}
+            <Link className="text-blue-500" href="/login">
+              Login
+            </Link>
+          </p>
         </form>
       </div>
     </div>
