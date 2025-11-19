@@ -22,7 +22,7 @@ export default function RoastGenerator() {
       formData.append("file", uploadFile);
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/fileupload`,
+        "/api/fileupload",
         {
           method: "POST",
           body: formData,
