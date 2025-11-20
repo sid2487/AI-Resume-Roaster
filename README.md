@@ -2,6 +2,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Check the project: ai-resume-roaster.vercel.app/register
+
 First, run the development server:
 
 ```bash
@@ -37,7 +39,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 | Frontend | Next.js, React, Tailwind CSS |
 | Backend | Next.js API Routes |
 | AI | Groq API |
-| Text Extraction | pdf.js, Mammoth, Tesseract |
+| Text Extraction | pdf-parser , Mammoth |
 | Auth | NextAuth.js (Credentials) |
 | Database | Prisma + PostgreSQL |
 | Deployment | Vercel |
