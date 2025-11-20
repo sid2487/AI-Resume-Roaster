@@ -26,7 +26,6 @@ export default function RoastGenerator() {
         {
           method: "POST",
           body: formData,
-          cache: "no-store",
           headers: {
             "x-temperature": temperature.toString(),
           },
