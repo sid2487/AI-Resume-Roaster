@@ -31,13 +31,22 @@ export default function Register() {
         email,
         password
       });
-      if (res.status === 200) {
+      if (res.status === 201) {
         router.push("/login");
       }
     } catch (err: any) {
-      const msg = err.response?.data?.message || "Something went wrong";
+      console.log(err);
+
+      if (Array.isArray(err.response?.data?.details)) {
+        setError(err.response.data.details.join(", "));
+        return;
+      }
+
+      const msg =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Something went wrong";
       setError(msg);
-      console.error(err.response?.data?.message || "Error in Register")
     } finally {
       setLoading(false);
     }
