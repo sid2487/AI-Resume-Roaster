@@ -13,6 +13,10 @@ export default withAuth(
       return NextResponse.redirect(new URL("/roast", req.url));
     }
 
+    if (isAuth && pathname === "/") {
+      return NextResponse.redirect(new URL("/roast", req.url));
+    }
+
     if (!isAuth && (pathname === "/" || pathname === "/roast")) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
