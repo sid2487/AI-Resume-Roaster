@@ -25,10 +25,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: [
-    /*
-     * Match all pages, but exclude paths that start with /api, /_next, etc.
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
-  ],
+  matcher: ["/((?!api|_next|favicon.ico).*)"],
 };
