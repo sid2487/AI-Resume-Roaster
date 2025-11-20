@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { signOut } from "next-auth/react";
 
 export default function Roast() {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
@@ -53,6 +54,12 @@ export default function Roast() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center py-12 px-4">
+      <button
+        className="absolute top-6 right-6 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg font-medium"
+        onClick={() => signOut({ callbackUrl: "/login" })}
+      >
+        Logout
+      </button>
       <h1 className="text-4xl font-bold mb-6 text-blue-400">
         AI Roast My Resume
       </h1>

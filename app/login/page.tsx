@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { FcGoogle } from "react-icons/fc"
 import Link from "next/link";
 
 export default function Login() {
@@ -13,6 +14,10 @@ export default function Login() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+   const socialLogin = async (provider: "google") => {
+     await signIn(provider, { redirect: true, callbackUrl: "/roast" });
+   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +46,8 @@ export default function Login() {
 
       if (res?.ok) {
         router.push("/roast");
-      }
+      };
+
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Try again.");
@@ -100,6 +106,20 @@ export default function Login() {
             </Link>
           </p>
         </form>
+
+        <div className="flex items-center my-6">
+          <div className="flex-1 h-px bg-gray-300"></div>
+          <span className="px-3 text-gray-500">OR</span>
+          <div className="flex-1 h-px bg-gray-300"></div>
+        </div>
+
+        <button
+          onClick={() => socialLogin("google")}
+          className="w-full flex items-center justify-center gap-3 border py-2 rounded hover:bg-gray-100 transition"
+        >
+          <FcGoogle size={24} />
+          <span className="font-medium">Continue with Google</span>
+        </button>
       </div>
     </div>
   );
