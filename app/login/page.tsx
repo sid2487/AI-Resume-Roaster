@@ -14,9 +14,17 @@ export default function Login() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
    const socialLogin = async (provider: "google") => {
-     await signIn(provider, { redirect: true, callbackUrl: "/roast" });
+     try {
+       setGoogleLoading(true);
+       await signIn(provider, { redirect: true, callbackUrl: "/roast" });
+     } catch (e) {
+       console.log(e);
+     } finally {
+       setGoogleLoading(false);
+     }
    };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -115,10 +123,19 @@ export default function Login() {
 
         <button
           onClick={() => socialLogin("google")}
-          className="w-full flex items-center justify-center gap-3 border py-2 rounded hover:bg-gray-100 transition"
+          disabled={googleLoading}
+          className={`w-full flex items-center justify-center gap-3 border py-2 rounded transition ${
+            googleLoading ? "bg-gray-200" : "hover:bg-gray-100"
+          }`}
         >
-          <FcGoogle size={24} />
-          <span className="font-medium">Continue with Google</span>
+          {googleLoading ? (
+            <span className="animate-pulse">Authenticating...</span>
+          ) : (
+            <>
+              <FcGoogle size={24} />
+              <span className="font-medium">Continue with Google</span>
+            </>
+          )}
         </button>
       </div>
     </div>

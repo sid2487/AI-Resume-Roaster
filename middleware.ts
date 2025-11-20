@@ -28,11 +28,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: [
-    "/",
-    "/roast",
-    "/login", // allow login
-    "/register", // allow register
-    "/((?!api|_next|.*\\..*).*)", // exclude ALL API routes + files
-  ],
+  matcher: ["/", "/roast"],
 };
