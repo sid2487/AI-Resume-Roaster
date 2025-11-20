@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
 
         if (!user) return null;
 
-        const valid = await bcrypt.compare(credentials.password, user.password);
+        const valid = await bcrypt.compare(credentials.password, user.password!);
         if (!valid) return null;
 
         return {
@@ -57,10 +57,25 @@ export const authOptions: NextAuthOptions = {
         
         // google login
         if(account.provider === "google"){
-          token.user = {
-            id: token.sub!, // google user id
-            email: token.email!, // google email
+          const dbUser = await prisma.user.findUnique({
+            where: {email: user.email!},
+          });
+
+          // if not exist
+          if (!dbUser) {
+            await prisma.user.create({
+              data: {
+                email: user.email!,
+                password: "",
+              },
+            });
           }
+
+          // put into token
+          token.user = {
+            id: String(dbUser?.id),
+            email: String(dbUser?.email),
+          };
         }
       }
       return token;
