@@ -40,7 +40,7 @@ export default function Login() {
       }
 
       if (res?.ok) {
-        router.push("/");
+        router.push("/roast");
       }
     } catch (err) {
       console.error(err);
